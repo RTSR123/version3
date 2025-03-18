@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter - Income</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .container { 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+        }
+        button { 
+            background-color: green; 
+            color: white; 
+            padding: 20px 40px; 
+            font-size: 22px; 
+            border: none; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            border-radius: 8px; 
+        }
+        button:hover { background-color: darkgreen; }
+        h2 { font-size: 36px; }
+        input { font-size: 28px; padding: 15px; width: 200px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enter Annual Income</h2>
+        <input type="number" id="income" placeholder="Enter annual income">
+        <br>
+        <button onclick="nextPage()">Next</button>
+    </div>
+    <script>
+        function nextPage() {
+            let income = document.getElementById("income").value;
+            localStorage.setItem("income", income);
+            window.location.href = "maritalstatus.html";
+        }
+    </script>
+</body>
+</html>
+

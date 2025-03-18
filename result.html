@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        .filter-summary { background: #f4f4f4; padding: 10px; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Filtered Results</h2>
+        <div class="filter-summary">
+            <p><strong>Gender:</strong> <span id="gender"></span></p>
+            <p><strong>Marital Status:</strong> <span id="maritalStatus"></span></p>
+            <p><strong>Disability:</strong> <span id="disability"></span></p>
+            <p><strong>Annual Income:</strong> <span id="income"></span></p>
+        </div>
+    </div>
+    <script>
+        document.getElementById("gender").textContent = localStorage.getItem("gender");
+        document.getElementById("maritalStatus").textContent = localStorage.getItem("maritalStatus");
+        document.getElementById("disability").textContent = localStorage.getItem("disability");
+        document.getElementById("income").textContent = localStorage.getItem("income");
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter - Marital Status</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .container { 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+        }
+        button { 
+            background-color: green; 
+            color: white; 
+            padding: 20px 40px; 
+            font-size: 22px; 
+            border: none; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            border-radius: 8px; 
+        }
+        button:hover { background-color: darkgreen; }
+        h2 { font-size: 36px; }
+        select { font-size: 28px; padding: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Select Marital Status</h2>
+        <select id="maritalStatus">
+            <option value="unmarried">Unmarried</option>
+            <option value="married">Married</option>
+            <option value="widow">Widow</option>
+        </select>
+        <br>
+        <button onclick="nextPage('disability.html')">Next</button>
+    </div>
+    <script>
+        function nextPage(page) {
+            let maritalStatus = document.getElementById("maritalStatus").value;
+            localStorage.setItem("maritalStatus", maritalStatus);
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>
+
+
