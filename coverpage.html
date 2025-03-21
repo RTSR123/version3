@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -156,6 +155,60 @@
         .find-schemes-button:hover {
             background-color: darkgreen;
         }
+        .steps-container {
+            text-align: center;
+            padding: 40px;
+            background-color: #ffffff;
+            margin: 30px auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+        }
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        .step {
+            width: 22%;
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .step img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+        .step p {
+            font-size: 14px;
+            color: #0a0a0a;
+        }        
+        .about-us {
+            background-color: #ffffff;
+            padding: 40px;
+            margin: 30px auto;
+            width: 90%;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .about-us h2 {
+            color: #004085;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        
+        .about-us p {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto 10px auto;
+        }
     </style>
 </head>
 <body>
@@ -165,8 +218,8 @@
             <div class="logo">Scheme Navigator</div>
         </div>
         <div class="nav-buttons">
-            <a href="#">Login</a>
-            <a href="#">Register</a>
+            <a href="login.html">Login</a>
+            <a href="registration.html">Register</a>
             <i class="fa-solid fa-user-circle user-icon" title="User Profile"></i> <!-- Corrected User Icon -->
         </div>
     </div>
@@ -189,20 +242,73 @@
     <div class="categories">
         <h2>Categories</h2>
         <div class="subcategories">
-            <a href="#">Total Schemes</a>
             <a href="#">Government Schemes</a>
             <a href="#">Non-Government Schemes</a>
-            <a href="#">Agriculture</a>
-            <a href="#">Rural Development</a>
+            <a href="#">Agriculture and rural Development</a>
+            <a href="#">Social Welfare</a>
             <a href="#">Education</a>
-            <a href="#">Learning</a>
+            <a href="#">Sports & Culture</a>
             <a href="#">Banking</a>
         </div>
+    </div>
+    <div class="steps-container">
+        <h2>Easy Steps to Apply for Schemes</h2>
+        <div class="steps">
+            <div class="step">
+                <!-- Step 1 SVG -->
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="18" height="18" rx="4" stroke="#900C3F" stroke-width="2"/>
+                    <path d="M7 12H17M7 8H17M7 16H12" stroke="#900C3F" stroke-width="2"/>
+                </svg>
+                <p><strong>Enter Details</strong><br>Provide your basic details</p>
+            </div>
+    
+            <div class="step">
+                <!-- Step 2 SVG -->
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="6" stroke="#900C3F" stroke-width="2"/>
+                    <path d="M14 14L20 20" stroke="#900C3F" stroke-width="2"/>
+                </svg>
+                <p><strong>Search</strong><br>Find relevant schemes</p>
+            </div>
+    
+            <div class="step">
+                <!-- Step 3 SVG -->
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="5" width="14" height="14" rx="3" stroke="#900C3F" stroke-width="2"/>
+                    <path d="M9 12H15M12 9V15" stroke="#900C3F" stroke-width="2"/>
+                </svg>
+                <p><strong>Select & Apply</strong><br>Choose the best scheme</p>
+            </div>
+    
+            <div class="step">
+                <!-- Step 4 SVG -->
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M5 12L9 16M5 12L9 8" stroke="#900C3F" stroke-width="2"/>
+                </svg>
+                <p><strong>Track Progress</strong><br>Monitor application status</p>
+            </div>
+        </div>
+    </div>    
+    <div class="about-us">
+        <h2>About Us</h2>
+        <p>
+            Welcome to <strong>Scheme Navigator</strong>, your one-stop platform for discovering 
+            government and non-government schemes tailored to your eligibility. We aim to 
+            simplify access to welfare programs, ensuring that individuals and businesses 
+            can effortlessly find and apply for the right schemes.
+        </p>
+        <p>
+            Our user-friendly interface and advanced filtering system help you navigate 
+            through numerous schemes, whether related to education, agriculture, 
+            rural development, healthcare, or finance. 
+        </p>
+        <p>
+            Explore available schemes and make informed decisions with Scheme Navigator.
+        </p>
     </div>
     <div class="footer">
         <p>© 2025 Scheme Navigator. All Rights Reserved.</p>
     </div>
 </body>
 </html>
-
-
