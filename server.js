@@ -2,14 +2,10 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const path = require('path');
-
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// Serve static files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname)));
 
-// Connect to Database
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -25,12 +21,10 @@ db.connect((err) => {
   }
 });
 
-// Serve Registration Page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'registration.html'));
 });
 
-// Handle Registration
 app.post('/register', (req, res) => {
   const { first_name, last_name, email, phone, password } = req.body;
   const sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
@@ -45,29 +39,31 @@ app.post('/register', (req, res) => {
   });
 });
 
-// Serve Login Page
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'login.html'));
 });
 
-// Handle Login
 app.post('/login', (req, res) => {
-  const { email, password } = req.body;
-  const sql = 'SELECT * FROM users WHERE email = ? AND password = ?';
+    const { email, password } = req.body;
+    const sql = 'SELECT * FROM users WHERE email = ?';
   
-  db.query(sql, [email, password], (err, results) => {
-    if (err) {
-      console.error('Error during login:', err.message);
-      res.send('Error occurred. Please try again.');
-    } else if (results.length > 0) {
-      res.send('Login successful! <a href="result.html">Proceed to Dashboard</a>');
-    } else {
-      res.send('User not found. <a href="registration.html">Register here</a>');
-    }
+    db.query(sql, [email], (err, results) => {
+      if (err) {
+        console.error('Error during login:', err.message);
+        return res.json({ success: false, error: 'Database error. Please try again.' });
+      }
+      if (results.length === 0) {
+        // Redirect to registration if the user is not found
+        return res.redirect('/registration.html');
+      }
+      if (results[0].password === password) {
+        return res.json({ success: true });
+      }
+      return res.json({ success: false, error: 'Invalid password' });
+    });
   });
-});
+  
 
-// Start Server
 app.listen(3000, () => {
   console.log('Server running at http://localhost:3000');
 });
