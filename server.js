@@ -1,55 +1,73 @@
-require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
-const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
+const path = require('path');
+
 const app = express();
-const port = 3000;
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.json());
+// Serve static files (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname)));
 
-// Connect to MySQL
+// Connect to Database
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'scheme_navigator'
 });
 
 db.connect((err) => {
   if (err) {
-    console.error('Database connection failed: ', err.message);
+    console.error('Database connection failed:', err.message);
   } else {
-    console.log('Connected to MySQL Database');
+    console.log('Connected to MySQL');
   }
 });
 
-// API - Register User
-app.post('/register', async (req, res) => {
-  const { name, email, password, age, gender, income, marital_status, disability_status } = req.body;
-
-  if (!name || !email || !password) {
-    return res.status(400).json({ error: 'Name, email, and password are required' });
-  }
-
-  try {
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const sql = `INSERT INTO users (name, email, password, age, gender, income, marital_status, disability_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-    const values = [name, email, hashedPassword, age, gender, income, marital_status, disability_status];
-
-    db.query(sql, values, (err) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
-      res.status(201).json({ message: 'User registered successfully!' });
-    });
-  } catch (error) {
-    res.status(500).json({ error: 'Error hashing password' });
-  }
+// Serve Registration Page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'registration.html'));
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+// Handle Registration
+app.post('/register', (req, res) => {
+  const { first_name, last_name, email, phone, password } = req.body;
+  const sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
+  
+  db.query(sql, [`${first_name} ${last_name}`, email, password], (err) => {
+    if (err) {
+      console.error('Error registering user:', err.message);
+      res.send('Error occurred. Please try again.');
+    } else {
+      res.send('Registration successful! <a href="login.html">Login here</a>');
+    }
+  });
+});
+
+// Serve Login Page
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'login.html'));
+});
+
+// Handle Login
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+  const sql = 'SELECT * FROM users WHERE email = ? AND password = ?';
+  
+  db.query(sql, [email, password], (err, results) => {
+    if (err) {
+      console.error('Error during login:', err.message);
+      res.send('Error occurred. Please try again.');
+    } else if (results.length > 0) {
+      res.send('Login successful! <a href="result.html">Proceed to Dashboard</a>');
+    } else {
+      res.send('User not found. <a href="registration.html">Register here</a>');
+    }
+  });
+});
+
+// Start Server
+app.listen(3000, () => {
+  console.log('Server running at http://localhost:3000');
 });
