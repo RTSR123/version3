@@ -1,0 +1,295 @@
+To create a database and store user registration details using MySQL and Node.js, follow these steps.
+
+✅ Step 1: Install MySQL
+Download and install MySQL from the official website: MySQL Download
+
+Start the MySQL service.
+
+✅ Step 2: Create Database and Table
+Login to MySQL:
+
+bash
+Copy
+Edit
+mysql -u root -p
+Create the database and table:
+
+sql
+Copy
+Edit
+CREATE DATABASE scheme_navigator;
+USE scheme_navigator;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    age INT,
+    gender VARCHAR(10),
+    income DECIMAL(10,2),
+    marital_status VARCHAR(20),
+    disability_status VARCHAR(20)
+);
+✅ Step 3: Setup Node.js Project
+Initialize the project:
+
+bash
+Copy
+Edit
+mkdir scheme-navigator-backend
+cd scheme-navigator-backend
+npm init -y
+Install required packages:
+
+bash
+Copy
+Edit
+npm install express mysql2 bcrypt dotenv
+express → Framework for backend.
+
+mysql2 → Connect to MySQL database.
+
+bcrypt → Encrypt user passwords securely.
+
+dotenv → For storing sensitive information.
+
+✅ Step 4: Create .env File
+Create a .env file to store database credentials securely:
+
+env
+Copy
+Edit
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=scheme_navigator
+✅ Step 5: Create the Server (server.js)
+Create a server.js file and add the following code:
+
+javascript
+Copy
+Edit
+require('dotenv').config();
+const express = require('express');
+const mysql = require('mysql2');
+const bcrypt = require('bcrypt');
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+
+// Connect to MySQL
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+db.connect((err) => {
+  if (err) {
+    console.error('Database connection failed: ', err.message);
+  } else {
+    console.log('Connected to MySQL Database');
+  }
+});
+
+// API - Register User
+app.post('/register', async (req, res) => {
+  const { name, email, password, age, gender, income, marital_status, disability_status } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: 'Name, email, and password are required' });
+  }
+
+  try {
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const sql = `INSERT INTO users (name, email, password, age, gender, income, marital_status, disability_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    const values = [name, email, hashedPassword, age, gender, income, marital_status, disability_status];
+
+    db.query(sql, values, (err) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.status(201).json({ message: 'User registered successfully!' });
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Error hashing password' });
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
+✅ Step 6: Test the API Using Postman
+Start the server:
+
+bash
+Copy
+Edit
+node server.js
+Open Postman and send a POST request to:
+
+bash
+Copy
+Edit
+http://localhost:3000/register
+Example JSON Body:
+
+json
+Copy
+Edit
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "password": "secure123",
+  "age": 30,
+  "gender": "Male",
+  "income": 50000.00,
+  "marital_status": "Single",
+  "disability_status": "None"
+}
+Expected Response:
+
+json
+Copy
+Edit
+{
+  "message": "User registered successfully!"
+}
+✅ Extra Notes
+Passwords are securely hashed using bcrypt for security.
+
+You can check stored data using SQL:
+
+sql
+Copy
+Edit
+SELECT * FROM users;
+If an email already exists, MySQL will throw an error because of the UNIQUE constraint.
+
+Would you like me to add login functionality or further enhance your backend? 😊
+
+
+
+
+
+
+
+You said:
+now how to run the below code in vs
+CREATE DATABASE scheme_navigator;
+USE scheme_navigator;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    age INT,
+    gender VARCHAR(10),
+    income DECIMAL(10,2),
+    marital_status VARCHAR(20),
+    disability_status VARCHAR(20)
+);
+ChatGPT said:
+To run the SQL code in VS Code using MySQL, follow these steps:
+
+✅ Step 1: Install MySQL
+Ensure MySQL Server is installed and running on your system.
+
+If not, download it from the official website: MySQL Download
+
+Install MySQL Workbench (optional for GUI management).
+
+✅ Step 2: Install Extensions in VS Code
+Open VS Code.
+
+Go to Extensions (Ctrl + Shift + X).
+
+Search and install:
+
+SQLTools (by Matheus Teixeira)
+
+MySQL (Database Client)
+
+✅ Step 3: Configure Database Connection
+Press Ctrl + Shift + P → Select SQLTools: Add New Connection.
+
+Choose MySQL and enter the following details:
+
+Host: localhost
+
+Port: 3306
+
+User: root
+
+Password: Your MySQL Password
+
+Database: (Leave blank for now)
+
+Save the connection.
+
+✅ Step 4: Run Your SQL Code
+Create a new file: database.sql.
+
+Paste your SQL code:
+
+sql
+Copy
+Edit
+CREATE DATABASE scheme_navigator;
+USE scheme_navigator;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    age INT,
+    gender VARCHAR(10),
+    income DECIMAL(10,2),
+    marital_status VARCHAR(20),
+    disability_status VARCHAR(20)
+);
+Connect to MySQL using SQLTools:
+
+Click on the Database Icon on the left sidebar.
+
+Select your MySQL connection.
+
+Right-click the database.sql file → Select Run Query.
+
+✅ Step 5: Verify the Database and Table
+Open your MySQL client (like MySQL Workbench or SQLTools).
+
+Run:
+
+sql
+Copy
+Edit
+SHOW DATABASES;
+USE scheme_navigator;
+SHOW TABLES;
+Ensure the users table is created:
+
+sql
+Copy
+Edit
+DESCRIBE users;
+That's it! 🎉 You now have your database and table ready. Let me know if you'd like to proceed with further steps like connecting the database to your Node.js backend.
+
+
+
+
+
+
+
+
+
+
+
